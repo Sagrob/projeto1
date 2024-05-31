@@ -16,10 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from main.views import index, show
+from main.views import index, show, store, destroy, destroy_item
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('<int:id>/', show, name='show'),
+    path('nova/tarefa', store, name='store'),
+    path('<int:todo_id>/novo/item/', store, name='store-item'),
+    path('<int:todo_id>/deletar/tarefa', destroy, name='destroy'),
+    path('<int:todo_id>/<int:item_id>/deletar_item/tarefa', destroy_item, name='deletar_item'),
 ]

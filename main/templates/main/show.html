@@ -6,15 +6,26 @@
     <title></title>
 </head>
 <body>
-    <h1>Compras Semanais</h1> <button>Voltar</button>
-    <input type="text" name="nome" placeholder="Nova Tarefa">
-    <button> Adicionar </button>
+    <h1>{{ name }}</h1>
+    
+    <a href="{% url 'index'%}"><button>Voltar</button></a>
+    
+    <form action="{% url 'store-item' todo_id %}" method="post">
+        {% csrf_token %}
+    <input type="text" name="text" placeholder="Novo item" required>
+    <button type="submit"> Adicionar </button>
+    </form>
+
     <ul>
         {% for item in items %}
         <li>   
             {{ item.text }}
             <button type="submit">Concluído</button>
+            
+            <form method="post" action="{% url 'deletar_item' item.todo.id todo_id %}" method="post">
+                {% csrf_token %}
             <button type="submit">Excluir</button>
+            </form>
         </li>
         {% endfor %} 
     </ul>

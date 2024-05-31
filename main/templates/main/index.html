@@ -7,14 +7,23 @@
 </head>
 <body>
     <h1>Lista de Tarefas</h1>
-    <input type="text" name="nome" placeholder="Nova Tarefa">
+    
+    <form method="post" action="{% url 'store' %}">
+        {% csrf_token %}
+    <input type="text" name="todo_name" placeholder="Nova Tarefa" required>
     <button type="submit"> Adicionar </button>
+    </form>
+
     <ul>
         {% for todo in todos %}
         <li>
             {{ todo.name }}
             <a href="{% url 'show' todo.id %}"><button type="button">Abrir</button></a>
+            <form method="post" action="{% url 'destroy' todo.id %}" method="post">
+                {% csrf_token %}
             <button type="submit">Excluir</button>
+            </form>
+
         </li>
         {% endfor %}
     </ul>

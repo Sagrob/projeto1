@@ -1,5 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from main.models import Todo, Item
+from main.forms import ContatoForm
 from django.shortcuts import render, redirect
 def index(request):
     todos = Todo.objects.all()
@@ -9,6 +10,19 @@ def show(request, id):
     todo = Todo.objects.filter(id=id).first()
     itens = todo.items.all()
     return render (request, "main/show.html", {'name':todo.name,'items':itens, 'todo_id':todo.id})
+
+def contato(request):
+    if request.method == "POST":
+        form = ContatoForm(request.POST)
+        if form.is_valid():
+            assunto = form.cleaned_data['assunto']
+            mensagem = form.cleaned_data['mensagem']
+            email = form.cleaned_data['email']
+            copiar = form.cleaned_data['copiar']
+            return redirect('index')
+    else:
+        form = ContatoForm()
+        return render(request, 'main/contato.html', {'form':form})
 
 def store(request, todo_id=None):
     if not todo_id:

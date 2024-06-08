@@ -1,19 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-</head>
-<body>
-    <h1>{{ name }}</h1>
+{% extends 'main/base.html' %}
+
+{% block title %}Detalhes da tarefa{% endblock %}
+
+    <h1>{% block titleh1 %} {{ name }} {% endblock %}</h1>
     
+    {% block content %}
     <a href="{% url 'index'%}"><button>Voltar</button></a>
     
     <form action="{% url 'store-item' todo_id %}" method="post">
         {% csrf_token %}
     <input type="text" name="text" placeholder="Novo item" required>
-    <button type="submit"> Adicionar </button>
+    <button type="submit" class="btn btn-primary"> Adicionar </button>
     </form>
 
     <ul>
@@ -24,18 +21,17 @@
         <form action="{% url 'put-item' item.id %}" method="post" style="display: inline;"></form>
             {% csrf_token %}
             {% if item.complete %}
-                <button type="submit">Concluído</button>
+                <button type="submit" class="btn btn-success">Concluído</button>
             {% else %}
-                <button type="submit">Pendente</button>
+                <button type="submit" class="btn btn-warning">Pendente</button>
             {% endif %}
         </form>
 
-            <form method="post" action="{% url 'deletar_item' item.todo.id todo_id %}" method="post">
+            <form method="post" action="{% url 'deletar_item' item.todo.id todo_id %}">
             {% csrf_token %}
-            <button type="submit">Excluir</button>
+            <button type="submit" class="btn btn-danger">Excluir</button>
             </form>
         </li>
         {% endfor %} 
     </ul>
-</body>
-</html>
+{% endblock %}
